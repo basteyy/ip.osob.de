@@ -44,7 +44,21 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 
         main > div:hover {
             background-color: #f0f0f0;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: auto;
+        }
+
+        code:hover {
             cursor: copy;
+        }
+
+        main > div > p {
+            font-size: 0.8rem;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -53,10 +67,16 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
     <div id="ipv4">
         <h2>IPv4</h2>
         <pre><code><?= $v4 ?? 'N/A' ?></code></pre>
+        <p>
+            <a href="https://ipv4.osob.de" title="See your IPv4" target="_blank">ipv4.osob.de</a>
+        </p>
     </div>
     <div id="ipv6">
         <h2>IPv6</h2>
         <pre><code><?= $v6 ?? 'N/A' ?></code></pre>
+        <p>
+            <a href="https://ipv6.osob.de" title="See your IPv6" target="_blank">ipv6.osob.de</a>
+        </p>
     </div>
 </main>
 <script>
@@ -83,15 +103,15 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
         });
 
     // Copy to clipboard
-    document.querySelectorAll('div').forEach((el) => {
+    document.querySelectorAll('code').forEach((el) => {
         el.addEventListener('click', () => {
-            const code = el.querySelector('code').textContent;
+            const code = el.textContent;
             navigator.clipboard.writeText(code).then(() => {
                 console.log('Copied to clipboard');
-                    el.querySelector('code').textContent = 'Copied to clipboard';
+                    el.textContent = 'Copied to clipboard';
                     setTimeout(() => {
-                        el.querySelector('code').textContent = code;
-                    }, 2000);
+                        el.textContent = code;
+                    }, 1000);
             }).catch((err) => {
                 console.error('Failed to copy: ', err);
             });
