@@ -117,6 +117,7 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             right: 0;
             text-align: right;
             background-color: rgba(0, 123, 255, 0.3);
+            font-size: 0.8rem;
         }
 
         a {
@@ -153,7 +154,9 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
     </div>
 </main>
 <footer>
-    <a href="//xzit.online/impressum" title="Impressum" target="_blank">Impressum</a> | Background &copy; by <a href="https://picsum.photos" target="_blank">picsum.photos</a>
+    Background &copy; by <a href="https://picsum.photos" target="_blank">picsum.photos</a> |
+    <a href="https://github.com/basteyy/ip.osob.de/" title="Source Code" target="_blank">Source Code</a> |
+    <a href="//xzit.online/impressum" title="Impressum" target="_blank">Impressum</a>
 </footer>
 <script>
     const ipv4_url = 'https://ipv4.osob.de';
