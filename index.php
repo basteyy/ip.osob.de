@@ -20,7 +20,8 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 
 ?><!doctype html>
 <html lang="en">
-<head><meta charset="utf-8">
+<head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>IP-Address - Check Your IP Information</title>
     <link rel="apple-touch-icon" sizes="180x180" href="//osob.de/img/favicon/apple-touch-icon.png">
@@ -46,97 +47,17 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
     <meta name="twitter:description" content="Find out your IPv4 and IPv6 addresses with a simple and quick lookup tool.">
     <meta name="twitter:image" content="/assets/twitter-image.jpg">
     <meta name="twitter:site" content="@xzit_online">
-    <style>
-        body {
-            background-repeat: no-repeat;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
 
-        main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            gap: 2rem;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        @media (max-width: 768px) {
-            main {
-                flex-direction: column;
-            }
-        }
-
-        main > div {
-            padding: 1rem;
-            border: 1px solid #000;
-            background-color: #fff;
-            border-radius: 5px;
-            width: 90vw;
-            max-width: 32rem;
-            text-align: center;
-        }
-
-        main > div:hover {
-            background-color: #f0f0f0;
-        }
-
-        pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow: auto;
-        }
-
-        code:hover {
-            cursor: copy;
-        }
-
-        main > div > p {
-            font-size: 0.8rem;
-            margin-top: 1rem;
-        }
-
-        h2 > span {
-            font-size: 0.8rem;
-            color: #007bff;
-            background-color: #f0f0f0;
-            padding: 0.2rem 0.5rem;
-            border-radius: 5px;
-        }
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            padding: 1rem;
-            left: 0;
-            right: 0;
-            text-align: right;
-            background-color: rgba(0, 123, 255, 0.3);
-            font-size: 0.8rem;
-        }
-
-        a {
-            color: darkslateblue;
-            text-decoration: none;
-            border-bottom: 1px dashed darkslateblue;
-        }
-
-        a:hover {
-            text-decoration: none;
-            border-bottom: 1px solid darkslateblue;
-        }
-
-        footer a {
-            color: black;
-        }
-    </style>
+    <!-- Load /style.css -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<div id="jssupport">
+    Please enable JavaScript to allow this page to work correctly.
+</div>
+<script>
+    document.getElementById('jssupport').style.display = 'none';
+</script>
 <main>
     <div id="ipv4">
         <h2>IPv4<?= isset($v4) ? ' <span>primary connection</span>' : '' ?></h2>
@@ -150,6 +71,19 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
         <pre><code><?= $v6 ?? 'N/A' ?></code></pre>
         <p>
             <a href="https://ipv6.osob.de" title="See your IPv6" target="_blank">ipv6.osob.de</a>
+        </p>
+    </div>
+    <div id="hardware">
+        <h2>Hardware</h2>
+        <h3>Browser</h3>
+        <pre><code id="browser">please wait</code></pre>
+        <p>
+            <a href="/browser.php" title="See your Browser" target="_blank">ip.osob.de/browser.php</a>
+        </p>
+        <h3>Platform</h3>
+        <pre><code id="platform">please wait</code></pre>
+        <p>
+            <a href="/browser.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a>
         </p>
     </div>
 </main>
@@ -181,16 +115,35 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             console.error('Error:', error);
         });
 
+    fetch('/browser.php')
+        .then((response) => response.text())
+        .then((data) => {
+            document.getElementById('browser').textContent = data;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    fetch('/platform.php')
+        .then((response) => response.text())
+        .then((data) => {
+            document.getElementById('platform').textContent = data;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+
     // Copy to clipboard
     document.querySelectorAll('code').forEach((el) => {
         el.addEventListener('click', () => {
             const code = el.textContent;
             navigator.clipboard.writeText(code).then(() => {
                 console.log('Copied to clipboard');
-                    el.textContent = 'Copied to clipboard';
-                    setTimeout(() => {
-                        el.textContent = code;
-                    }, 1000);
+                el.textContent = 'Copied to clipboard';
+                setTimeout(() => {
+                    el.textContent = code;
+                }, 1000);
             }).catch((err) => {
                 console.error('Failed to copy: ', err);
             });
@@ -201,7 +154,7 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 
     let timeout = null;
 
-    function bg(){
+    function bg() {
         const width = window.innerWidth;
         const height = window.innerHeight;
         document.body.style.backgroundImage = `url(${bg_image_url.replace('{$width}', width).replace('{$height}', height)})`;

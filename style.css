@@ -1,0 +1,99 @@
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(2, auto); /* Zwei Spalten mit automatischer Breite */
+    gap: 1rem; /* Weniger Abstand zwischen den DIVs */
+    justify-content: center; /* Zentriert die Grid-Items horizontal */
+    align-content: center; /* Zentriert den Inhalt vertikal */
+    min-height: calc(100vh - 2rem); /* Mindesthöhe, um vertikal zentrieren zu ermöglichen */
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr; /* Eine Spalte auf mobilen Geräten */
+        gap: 0.5rem; /* Weniger Abstand zwischen den DIVs */
+        justify-content: center;
+        align-content: start; /* Optional: Inhalte am Anfang ausrichten auf mobilen Geräten */
+        min-height: auto; /* Mindesthöhe zurücksetzen für mobile Geräte */
+    }
+}
+
+main > div {
+    padding: 1rem;
+    border: 1px solid #000;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    width: 300px; /* Feste Breite für die Boxen */
+}
+
+main > div:hover {
+    background-color: #f0f0f0;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+code:hover {
+    cursor: copy;
+}
+
+main > div > p {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+}
+
+h2 > span {
+    font-size: 0.8rem;
+    color: #007bff;
+    background-color: #f0f0f0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    padding: 1rem;
+    left: 0;
+    right: 0;
+    text-align: right;
+    background-color: rgba(0, 123, 255, 0.3);
+    font-size: 0.8rem;
+}
+
+a {
+    color: darkslateblue;
+    text-decoration: none;
+    border-bottom: 1px dashed darkslateblue;
+}
+
+a:hover {
+    text-decoration: none;
+    border-bottom: 1px solid darkslateblue;
+}
+
+footer a {
+    color: black;
+}
+
+#jssupport {
+    background: coral;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 1rem;
+}
