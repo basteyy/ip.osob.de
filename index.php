@@ -49,7 +49,7 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
     <meta name="twitter:site" content="@xzit_online">
 
     <!-- Load /style.css -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/assets/style.min.css">
 </head>
 <body>
 <div id="jssupport">
