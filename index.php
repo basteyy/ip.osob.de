@@ -83,8 +83,25 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
         <h3>Platform</h3>
         <pre><code id="platform">please wait</code></pre>
         <p>
-            <a href="/browser.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a>
+            <a href="/platform.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a>
         </p>
+    </div>
+    <div style="display: none;" id="geoip">
+        <h2>IP Location</h2>
+        <h3>Postal</h3>
+        <pre><code id="postal">please wait</code></pre>
+        <h3>City</h3>
+        <pre><code id="city">please wait</code></pre>
+        <h3>Country</h3>
+        <pre><code id="country">please wait</code></pre>
+        <h3>Continent</h3>
+        <pre><code id="continent">please wait</code></pre>
+        <h3>Latitude</h3>
+        <pre><code id="latitude">please wait</code></pre>
+        <h3>Longitude</h3>
+        <pre><code id="longitude">please wait</code></pre>
+        <h3>Timezone</h3>
+        <pre><code id="timezone">please wait</code></pre>
     </div>
 </main>
 <footer>
@@ -128,6 +145,28 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
         .then((response) => response.text())
         .then((data) => {
             document.getElementById('platform').textContent = data;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    // Get the json response from geoip.php with the primary IP
+    fetch('/geoip.php?ip=<?= $v4 ?? $v6 ?>')
+        .then((response) => response.json())
+        .then((data) => {
+
+            if (data.error) {
+                console.error('Error:', data.error);
+                return;
+            }
+            document.getElementById('geoip').style.display = 'block';
+            document.getElementById('postal').textContent = data.postal;
+            document.getElementById('city').textContent = data.city;
+            document.getElementById('country').textContent = data.country;
+            document.getElementById('continent').textContent = data.continent;
+            document.getElementById('latitude').textContent = data.latitude;
+            document.getElementById('longitude').textContent = data.longitude;
+            document.getElementById('timezone').textContent = data.timezone;
         })
         .catch((error) => {
             console.error('Error:', error);
