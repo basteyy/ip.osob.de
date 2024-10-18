@@ -86,7 +86,7 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             <a href="/platform.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a>
         </p>
     </div>
-    <div class="d-nodne" id="geoip">
+    <div class="d-none" id="geoip">
         <h2>IP Location</h2>
         <h3>Postal / City</h3>
         <div class="row">

@@ -43,25 +43,45 @@ try {
         throw new Exception('Invalid IP');
     }
 
-    $cityDbReader = new Reader($maxmind_dir . 'GeoLite2-City.mmdb');
+    $ip_geo_hash = password_hash('geo.' . $_SERVER['IP'], PASSWORD_ARGON2ID);
 
-    $record = $cityDbReader->city($_GET['ip']);
+    if (apcu_exists($ip_geo_hash)) {
+        $record = apcu_fetch($ip_geo_hash);
+        $data = [
+            'city'      => $record['city'],
+            'country'   => $record['country'],
+            'continent' => $record['continent'],
+            'latitude'  => $record['latitude'],
+            'longitude' => $record['longitude'],
+            'postal'    => $record['postal'],
+            'timezone'  => $record['timezone'],
+        ];
+    } else {
+
+        $cityDbReader = new Reader($maxmind_dir . 'GeoLite2-City.mmdb');
+
+        $record = $cityDbReader->city($_GET['ip']);
+
+        apcu_store($ip_geo_hash, [
+            'city'      => $record->city->name,
+            'country'   => $record->country->name,
+            'continent' => $record->continent->name,
+            'latitude'  => $record->location->latitude,
+            'longitude' => $record->location->longitude,
+            'postal'    => $record->postal->code,
+            'timezone'  => $record->location->timeZone,
+        ], 3600);
+    }
 
     echo json_encode([
         'status' => 'success',
-        'ip' => $_GET['ip'],
-        'geoip' => [
-            'ip' => $_GET['ip'],
-            'city' => $record->city->name,
-            'country' => $record->country->name,
-            'continent' => $record->continent->name,
-            'latitude' => $record->location->latitude,
-            'longitude' => $record->location->longitude,
-            'postal' => $record->postal->code,
-            'timezone' => $record->location->timeZone,
-        ],
+        'ip'     => $_GET['ip'],
+        'geoip'  => $record,
     ]);
 
 } catch (Exception $e) {
-    die(json_encode(['error' => $e->getMessage()]));
+    echo json_encode([
+        'status' => 'error',
+        'error'  => $e->getMessage(),
+    ]);
 }
