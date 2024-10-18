@@ -93,7 +93,7 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             <div><pre><code id="latitude">please wait</code></pre></div>
             <div><pre><code id="longitude">please wait</code></pre></div>
         </div>
-        <p><a href="/geoip.php" title="See your GeoIP Data" target="_blank">ip.osob.de/geoip.php</a></p>
+        <p><a href="/geoip.php?ip=<?= $v4 ?? $v6 ?>" title="See your GeoIP Data" target="_blank">ip.osob.de/geoip.php</a></p>
     </div>
 </main>
 <footer>
