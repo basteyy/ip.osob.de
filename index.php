@@ -160,13 +160,13 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
                 return;
             }
             document.getElementById('geoip').style.display = 'block';
-            document.getElementById('postal').textContent = data.postal;
-            document.getElementById('city').textContent = data.city;
-            document.getElementById('country').textContent = data.country;
-            document.getElementById('continent').textContent = data.continent;
-            document.getElementById('latitude').textContent = data.latitude;
-            document.getElementById('longitude').textContent = data.longitude;
-            document.getElementById('timezone').textContent = data.timezone;
+            document.getElementById('postal').textContent = data.geoip.postal;
+            document.getElementById('city').textContent = data.geoip.city;
+            document.getElementById('country').textContent = data.geoip.country;
+            document.getElementById('continent').textContent = data.geoip.continent;
+            document.getElementById('latitude').textContent = data.geoip.latitude;
+            document.getElementById('longitude').textContent = data.geoip.longitude;
+            document.getElementById('timezone').textContent = data.geoip.timezone;
         })
         .catch((error) => {
             console.error('Error:', error);

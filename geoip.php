@@ -50,7 +50,7 @@ try {
     echo json_encode([
         'status' => 'success',
         'ip' => $_GET['ip'],
-        'data' => [
+        'geoip' => [
             'ip' => $_GET['ip'],
             'city' => $record->city->name,
             'country' => $record->country->name,
