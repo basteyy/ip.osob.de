@@ -86,26 +86,45 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             <a href="/platform.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a>
         </p>
     </div>
-    <div style="display: none;" id="geoip">
+    <div class="d-nodne" id="geoip">
         <h2>IP Location</h2>
-        <h3>Postal</h3>
-        <pre><code id="postal">please wait</code></pre>
-        <h3>City</h3>
-        <pre><code id="city">please wait</code></pre>
+        <h3>Postal / City</h3>
+        <div class="row">
+            <div>
+                <pre><code id="postal">please wait</code></pre>
+            </div>
+            <div>
+                <pre><code id="city">please wait</code></pre>
+            </div>
+        </div>
         <h3>Country</h3>
         <pre><code id="country">please wait</code></pre>
-        <h3>Continent</h3>
-        <pre><code id="continent">please wait</code></pre>
-        <h3>Latitude</h3>
-        <pre><code id="latitude">please wait</code></pre>
-        <h3>Longitude</h3>
-        <pre><code id="longitude">please wait</code></pre>
-        <h3>Timezone</h3>
-        <pre><code id="timezone">please wait</code></pre>
+        <h3>Continent / Timezone</h3>
+        <div class="row">
+            <div>
+                <pre><code id="continent">please wait</code></pre>
+            </div>
+            <div>
+                <pre><code id="timezone">please wait</code></pre>
+            </div>
+        </div>
+        <h3>Latitude / Longitude</h3>
+        <div class="row">
+            <div>
+                <pre><code id="latitude">please wait</code></pre>
+            </div>
+            <div>
+                <pre><code id="longitude">please wait</code></pre>
+            </div>
+        </div>
+        <p>
+            <a href="/geoip.php" title="See your GeoIP Data" target="_blank">ip.osob.de/geoip.php</a>
+        </p>
     </div>
 </main>
 <footer>
     Background &copy; by <a href="https://picsum.photos" target="_blank">picsum.photos</a> |
+    GeoIp by <a href="https://www.maxmind.com" target="_blank">MaxMind</a> |
     <a href="https://github.com/basteyy/ip.osob.de/" title="Source Code" target="_blank">Source Code</a> |
     <a href="//xzit.online/impressum" title="Impressum" target="_blank">Impressum</a>
 </footer>
@@ -159,7 +178,7 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
                 console.error('Error:', data.error);
                 return;
             }
-            document.getElementById('geoip').style.display = 'block';
+            document.getElementById('geoip').classList.remove('d-none');
             document.getElementById('postal').textContent = data.geoip.postal;
             document.getElementById('city').textContent = data.geoip.city;
             document.getElementById('country').textContent = data.geoip.country;

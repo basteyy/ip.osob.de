@@ -97,3 +97,17 @@ footer a {
     text-align: center;
     padding: 1rem;
 }
+
+.d-none {
+    display: none;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.row > div {
+    margin: 0.5rem;
+}
