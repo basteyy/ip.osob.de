@@ -7,23 +7,25 @@
 
 declare(strict_types=1);
 
+use Jenssegers\Agent\Agent;
+
 if (!file_exists($autoload = __DIR__ . '/vendor/autoload.php')) {
     die('Please run `composer install` first.');
 }
 
 include $autoload;
 
-// Text header
-header('Content-type: text/plain');
+// Json header
+header('Content-type: application/json');
 
 try {
-    $ip_agent_hash = password_hash($_SERVER['HTTP_USER_AGENT'], PASSWORD_ARGON2ID);
+    $ip_agent_hash = hash('sha256', $_SERVER['HTTP_USER_AGENT']);
 
     // In apcu_cache?
     if (apcu_exists($ip_agent_hash)) {
         $agent = apcu_fetch($ip_agent_hash);
     } else {
-        $agent = new \Jenssegers\Agent\Agent();
+        $agent = new Agent();
         $agent->setUserAgent($_SERVER['HTTP_USER_AGENT']);
         apcu_store($ip_agent_hash, $agent, 3600);
     }
@@ -33,11 +35,13 @@ try {
     $platform = $agent->platform();
     $version = $agent->version($platform);
 
-    if ($version) {
-        $platform .= ' ' . $version;
-    }
-
-    echo $platform;
-} catch (\Exception $e) {
+    echo json_encode(
+        [
+            'status'   => 'success',
+            'platform' => $platform,
+            'version'  => $version ? $version : ''
+        ]
+    );
+} catch (Exception $e) {
     $agent = null;
 }

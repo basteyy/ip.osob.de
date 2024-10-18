@@ -43,7 +43,9 @@ try {
         throw new Exception('Invalid IP');
     }
 
-    $ip_geo_hash = password_hash('geo.' . $_SERVER['IP'], PASSWORD_ARGON2ID);
+    $ip = $_GET['ip'];
+
+    $ip_geo_hash = hash('sha256', 'geo.' . $ip);
 
     if (apcu_exists($ip_geo_hash)) {
         $record = apcu_fetch($ip_geo_hash);
@@ -58,7 +60,7 @@ try {
         ];
     } else {
         $cityDbReader = new Reader($maxmind_dir . 'GeoLite2-City.mmdb');
-        $record = $cityDbReader->city($_GET['ip']);
+        $record = $cityDbReader->city($ip);
         $data = [
             'city'      => $record->city->name,
             'country'   => $record->country->name,
@@ -74,7 +76,7 @@ try {
 
     echo json_encode([
         'status' => 'success',
-        'ip'     => $_GET['ip'],
+        'ip'     => $ip,
         'geoip'  => $data,
     ]);
 

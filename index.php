@@ -32,94 +32,68 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
     <meta name="keywords" content="IP address, IPv4, IPv6, check IP, network tool, internet information">
     <meta name="author" content="xzit.online">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph Meta Tags for Social Media -->
     <meta property="og:title" content="IP-Address - Check Your IP Information">
     <meta property="og:description" content="Find out your IPv4 and IPv6 addresses with a simple and quick lookup tool.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xzit.online/ip-address">
     <meta property="og:image" content="/assets/og-image.jpg">
     <meta property="og:site_name" content="xzit.online">
-
-    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="IP-Address - Check Your IP Information">
     <meta name="twitter:description" content="Find out your IPv4 and IPv6 addresses with a simple and quick lookup tool.">
     <meta name="twitter:image" content="/assets/twitter-image.jpg">
     <meta name="twitter:site" content="@xzit_online">
-
-    <!-- Load /style.css -->
     <link rel="stylesheet" href="/assets/style.min.css">
 </head>
 <body>
-<div id="jssupport">
-    Please enable JavaScript to allow this page to work correctly.
-</div>
-<script>
-    document.getElementById('jssupport').style.display = 'none';
-</script>
+<div id="jssupport">Please enable JavaScript to allow this page to work correctly.</div>
+<script> document.getElementById('jssupport').style.display = 'none';</script>
 <main>
     <div id="ipv4">
         <h2>IPv4<?= isset($v4) ? ' <span>primary connection</span>' : '' ?></h2>
         <pre><code><?= $v4 ?? 'N/A' ?></code></pre>
-        <p>
-            <a href="https://ipv4.osob.de" title="See your IPv4" target="_blank">ipv4.osob.de</a>
-        </p>
+        <p><a href="https://ipv4.osob.de" title="See your IPv4" target="_blank">ipv4.osob.de</a></p>
     </div>
     <div id="ipv6">
         <h2>IPv6<?= isset($v6) ? ' <span>primary connection</span>' : '' ?></h2>
         <pre><code><?= $v6 ?? 'N/A' ?></code></pre>
-        <p>
-            <a href="https://ipv6.osob.de" title="See your IPv6" target="_blank">ipv6.osob.de</a>
-        </p>
+        <p><a href="https://ipv6.osob.de" title="See your IPv6" target="_blank">ipv6.osob.de</a></p>
     </div>
     <div id="hardware">
         <h2>Hardware</h2>
         <h3>Browser</h3>
-        <pre><code id="browser">please wait</code></pre>
-        <p>
-            <a href="/browser.php" title="See your Browser" target="_blank">ip.osob.de/browser.php</a>
-        </p>
+        <div class="row">
+            <div><pre><code id="browser">please wait</code></pre></div>
+            <div><pre><code id="browser_version"></code></pre></div>
+        </div>
+        <p><a href="/browser.php" title="See your Browser" target="_blank">ip.osob.de/browser.php</a></p>
         <h3>Platform</h3>
-        <pre><code id="platform">please wait</code></pre>
-        <p>
-            <a href="/platform.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a>
-        </p>
+        <div class="row">
+            <div><pre><code id="platform">please wait</code></pre></div>
+            <div><pre><code id="platform_version"></code></pre></div>
+        </div>
+        <p><a href="/platform.php" title="See your Platform (OS)" target="_blank">ip.osob.de/platform.php</a></p>
     </div>
     <div class="d-none" id="geoip">
         <h2>IP Location</h2>
         <h3>Postal / City</h3>
         <div class="row">
-            <div>
-                <pre><code id="postal">please wait</code></pre>
-            </div>
-            <div>
-                <pre><code id="city">please wait</code></pre>
-            </div>
+            <div><pre><code id="postal">please wait</code></pre></div>
+            <div><pre><code id="city">please wait</code></pre></div>
         </div>
         <h3>Country</h3>
         <pre><code id="country">please wait</code></pre>
         <h3>Continent / Timezone</h3>
         <div class="row">
-            <div>
-                <pre><code id="continent">please wait</code></pre>
-            </div>
-            <div>
-                <pre><code id="timezone">please wait</code></pre>
-            </div>
+            <div><pre><code id="continent">please wait</code></pre></div>
+            <div><pre><code id="timezone">please wait</code></pre></div>
         </div>
         <h3>Latitude / Longitude</h3>
         <div class="row">
-            <div>
-                <pre><code id="latitude">please wait</code></pre>
-            </div>
-            <div>
-                <pre><code id="longitude">please wait</code></pre>
-            </div>
+            <div><pre><code id="latitude">please wait</code></pre></div>
+            <div><pre><code id="longitude">please wait</code></pre></div>
         </div>
-        <p>
-            <a href="/geoip.php" title="See your GeoIP Data" target="_blank">ip.osob.de/geoip.php</a>
-        </p>
+        <p><a href="/geoip.php" title="See your GeoIP Data" target="_blank">ip.osob.de/geoip.php</a></p>
     </div>
 </main>
 <footer>
@@ -152,18 +126,20 @@ if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
         });
 
     fetch('/browser.php')
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((data) => {
-            document.getElementById('browser').textContent = data;
+            document.getElementById('browser').textContent = data.browser;
+            document.getElementById('browser_version').textContent = data.version;
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 
     fetch('/platform.php')
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((data) => {
-            document.getElementById('platform').textContent = data;
+            document.getElementById('platform').textContent = data.platform;
+            document.getElementById('platform_version').textContent = data.version;
         })
         .catch((error) => {
             console.error('Error:', error);

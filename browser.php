@@ -13,11 +13,11 @@ if (!file_exists($autoload = __DIR__ . '/vendor/autoload.php')) {
 
 include $autoload;
 
-// Text header
-header('Content-type: text/plain');
+// Json header
+header('Content-type: application/json');
 
 try {
-    $ip_agent_hash = password_hash($_SERVER['HTTP_USER_AGENT'], PASSWORD_ARGON2ID);
+    $ip_agent_hash = hash('sha256', $_SERVER['HTTP_USER_AGENT']);
 
     // In apcu_cache?
     if (apcu_exists($ip_agent_hash)) {
@@ -33,11 +33,13 @@ try {
     $browser = $agent->browser();
     $version = $agent->version($browser);
 
-    if ($version) {
-        $browser .= ' ' . $version;
-    }
-
-    echo $browser;
+    echo json_encode(
+        [
+            'status'   => 'success',
+            'browser' => $browser,
+            'version'  => $version ? $version : ''
+        ]
+    );
 } catch (\Exception $e) {
     $agent = null;
 }
