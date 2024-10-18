@@ -43,7 +43,7 @@ try {
         throw new Exception('Invalid IP');
     }
 
-    $cityDbReader = new Reader($maxmind_dir . 'GeoIP2-City.mmdb');
+    $cityDbReader = new Reader($maxmind_dir . 'GeoLite2-City.mmdb');
 
     $record = $cityDbReader->city($_GET['ip']);
 
