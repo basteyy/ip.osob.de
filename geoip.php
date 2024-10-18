@@ -57,12 +57,9 @@ try {
             'timezone'  => $record['timezone'],
         ];
     } else {
-
         $cityDbReader = new Reader($maxmind_dir . 'GeoLite2-City.mmdb');
-
         $record = $cityDbReader->city($_GET['ip']);
-
-        apcu_store($ip_geo_hash, [
+        $data = [
             'city'      => $record->city->name,
             'country'   => $record->country->name,
             'continent' => $record->continent->name,
@@ -70,13 +67,15 @@ try {
             'longitude' => $record->location->longitude,
             'postal'    => $record->postal->code,
             'timezone'  => $record->location->timeZone,
-        ], 3600);
+        ];
+
+        apcu_store($ip_geo_hash, $data, 3600);
     }
 
     echo json_encode([
         'status' => 'success',
         'ip'     => $_GET['ip'],
-        'geoip'  => $record,
+        'geoip'  => $data,
     ]);
 
 } catch (Exception $e) {
